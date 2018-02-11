@@ -13,8 +13,8 @@ This way you can TTS converted web pages in your favorite eBook reader and you w
 
 ## Usage
 
-Install with `npm install`
-Run `npm start "some-article.epub"`
+Install with `npm install`  
+Run `npm start "some-article.epub"` or just `npm start` to watch the current folder for incoming ebooks.
 
 ## Dependencies
 
@@ -22,11 +22,10 @@ Run `npm start "some-article.epub"`
 
 ## TODOs
 
+- [x] Fixed character encoding issue with `zip.file` options `{ binary: false }`
+- [ ] Sometimes get `Error: EBUSY: resource busy or locked`
 - [x] Watch folder and clean any incoming .epubs
+- [x] Creates larger files
 - [ ] Ensure better regex specificity
 - [ ] Error handling
 - [ ] Modularize
-
-## Notes
-
-Can sometimes create larger file. Still in the KBs, so whatever.

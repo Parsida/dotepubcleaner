@@ -26,34 +26,43 @@ function clean (file) {
     if (err) throw err;
     JSZip.loadAsync(data).then(function (zip) {
       
-      content = zip.file("OEBPS/text/content.xhtml").async('string').then(function (fileData) {
+      content = zip.file("OEBPS/text/content.xhtml").async("text").then(function (fileData) {
         // Strip out donation box
-        return fileData.replace(/<div.*id=\"donate\".*<\/div>/g, '');
+        return fileData.replace(/<div.*id=\"donate\".*<\/div>/g, "");
       });
-      zip.file("OEBPS/text/content.xhtml", content);
+      // binary: false option for character encoding issue
+      zip.file("OEBPS/text/content.xhtml", content, {binary: false});
 
-      title = zip.file("OEBPS/text/title.xhtml").async('string').then(function (fileData) {
+      title = zip.file("OEBPS/text/title.xhtml").async("text").then(function (fileData) {
         // Comment out URL 
-        return fileData.replace(/\t+(<h\d.*href[^>]*>[\s\S]*?<\/h\d>)/g, '\t\t<!-- $1 -->')
+        return fileData.replace(/\t+(<h\d.*href[^>]*>[\s\S]*?<\/h\d>)/g, "\t\t<!-- $1 -->")
         // Strip out dotEPUB logo
-        .replace(/\t+<div.*img[^>]*>([\s\S]*?)<\/div>\n/g, '');
+        .replace(/\t+<div.*img[^>]*>([\s\S]*?)<\/div>\n/g, "");
       });
-      zip.file("OEBPS/text/title.xhtml", title);
+      zip.file("OEBPS/text/title.xhtml", title, {binary: false});
       // Remove unused dotepub.png
       zip.remove("OEBPS/img/dotepub.png");
 
-      toc = zip.file("OEBPS/toc.ncx").async('string').then(function (fileData) {
+      toc = zip.file("OEBPS/toc.ncx").async("text").then(function (fileData) {
         // Strip out disclaimer section from TOC
-        return fileData.replace(/\t+<navPoint.*playOrder=\"3\"[^>]*>([\s\S]*?)<\/navPoint>\n\n/g, '');
+        return fileData.replace(/\t+<navPoint.*playOrder=\"3\"[^>]*>([\s\S]*?)<\/navPoint>\n\n/g, "");
       });
-      zip.file("OEBPS/toc.ncx", toc);
+      zip.file("OEBPS/toc.ncx", toc, {binary: false});
       // Strip out copyright file entirely
       zip.remove("OEBPS/text/copy.xhtml");
       
       zip
-      .generateNodeStream({ type:'nodebuffer', streamFiles:true })
+      .generateNodeStream({
+        type:"nodebuffer",
+        streamFiles: true,
+        compression: "DEFLATE",
+        compressionOptions: {
+          // 1 = best speed, 9 = best compression
+          level: 6
+        }
+      })
       .pipe(fs.createWriteStream(file))
-      .on('finish', function () {
+      .on("finish", function () {
           // JSZip generates a readable stream with a "end" event,
           // but is piped here in a writable stream which emits a "finish" event.
           console.log(file + " cleaned!");
