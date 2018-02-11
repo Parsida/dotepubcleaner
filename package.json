@@ -8,6 +8,10 @@
     "lint": "jshint **.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/akaleeroy/dotepubcleaner.git"
+  },
   "keywords": [
     "cleanup",
     "cleanse",
@@ -18,8 +22,12 @@
     "tts",
     "replace"
   ],
+  "homepage": "https://github.com/akaleeroy/dotepubcleaner",
   "author": "Leeroy <soupress@gmail.com>",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/akaleeroy/dotepubcleaner/issues"
+  },
   "dependencies": {
     "jszip": "^3.1.5"
   }

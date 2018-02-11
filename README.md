@@ -13,6 +13,7 @@ This way you can TTS converted web pages in your favorite eBook reader and you w
 
 ## Usage
 
+Clone the repo `git clone https://github.com/akaleeroy/dotepubcleaner.git`  
 Install with `npm install`  
 Run `npm start "some-article.epub"` or just `npm start` to watch the current folder for incoming ebooks.
 
