@@ -22,11 +22,10 @@ Run `npm start "some-article.epub"`
 
 ## TODOs
 
-- [ ] Modularize
-- [ ] Error handling
+- [x] Watch folder and clean any incoming .epubs
 - [ ] Ensure better regex specificity
-- [ ] Alternate inputs
-- [ ] Watch folder and clean any incoming .epubs?
+- [ ] Error handling
+- [ ] Modularize
 
 ## Notes
 
