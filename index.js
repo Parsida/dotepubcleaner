@@ -4,19 +4,23 @@
 var fs = require("fs");
 var JSZip = require("jszip");
 
-var file = fs.existsSync(process.argv.slice(2)[0]) ? process.argv.slice(2)[0] : null;
-if (file) {
-  cleanEpub(file);
-} else {
-  console.log("Watching folder...");
-  // See fs.watch limitations https://stackoverflow.com/a/33047844
-  fs.watch(".", function (event, file) {
-    // Will not work on overwrite
-    if (event === "rename" && /\.epub/i.test(file.slice(-5)) && fs.existsSync(file)) {
-      cleanEpub(file);
-    }
-  });
-  return;
+// Check if called directly
+// https://nodejs.org/docs/latest/api/all.html#modules_accessing_the_main_module
+if (require.main === module) {
+  var file = fs.existsSync(process.argv.slice(2)[0]) ? process.argv.slice(2)[0] : null;
+  if (file) {
+    cleanEpub(file);
+  } else {
+    console.log("Watching folder...");
+    // See fs.watch limitations https://stackoverflow.com/a/33047844
+    fs.watch(".", function (event, file) {
+      // Will not work on overwrite
+      if (event === "rename" && /\.epub/i.test(file.slice(-5)) && fs.existsSync(file)) {
+        cleanEpub(file);
+      }
+    });
+    return;
+  }
 }
 
 function cleanEpub(file) {
