@@ -6,19 +6,20 @@ var JSZip = require("jszip");
 
 var file = fs.existsSync(process.argv.slice(2)[0]) ? process.argv.slice(2)[0] : null;
 if (file) {
-  clean(file);
+  cleanEpub(file);
 } else {
   console.log("Watching folder...");
+  // See fs.watch limitations https://stackoverflow.com/a/33047844
   fs.watch(".", function (event, file) {
-    // TODO Work on overwrite
+    // Will not work on overwrite
     if (event === "rename" && /\.epub/i.test(file.slice(-5)) && fs.existsSync(file)) {
-      clean(file);
+      cleanEpub(file);
     }
   });
   return;
 }
 
-function clean (file) {
+function cleanEpub(file) {
   var content, title, toc;
 
   // Read a zip file
@@ -70,3 +71,5 @@ function clean (file) {
     });
   });  
 }
+
+module.exports = cleanEpub;

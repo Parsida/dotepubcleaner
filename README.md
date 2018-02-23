@@ -23,10 +23,4 @@ Run `npm start "some-article.epub"` or just `npm start` to watch the current fol
 
 ## TODOs
 
-- [x] Fixed character encoding issue with `zip.file` options `{ binary: false }`
 - [ ] Sometimes get `Error: EBUSY: resource busy or locked`
-- [x] Watch folder and clean any incoming .epubs
-- [x] Creates larger files
-- [ ] Ensure better regex specificity
-- [ ] Error handling
-- [ ] Modularize
