@@ -1,4 +1,3 @@
-/* jshint node: true*/
 "use strict";
 
 var fs = require("fs");
@@ -7,7 +6,7 @@ var JSZip = require("jszip");
 // Check if called directly
 // https://nodejs.org/docs/latest/api/all.html#modules_accessing_the_main_module
 if (require.main === module) {
-  var file = fs.existsSync(process.argv.slice(2)[0]) ? process.argv.slice(2)[0] : null;
+  var file = fs.existsSync(process.argv[2]) ? process.argv[2] : null;
   if (file) {
     cleanEpub(file);
   } else {
@@ -24,7 +23,7 @@ if (require.main === module) {
 }
 
 function cleanEpub(file) {
-  var content, title, toc;
+  var content, title, toc, opf;
 
   // Read a zip file
   fs.readFile(file, function(err, data) {
@@ -53,6 +52,14 @@ function cleanEpub(file) {
         return fileData.replace(/\t+<navPoint.*playOrder=\"3\"[^>]*>([\s\S]*?)<\/navPoint>\n\n/g, "");
       });
       zip.file("OEBPS/toc.ncx", toc, {binary: false});
+
+      opf = zip.file("OEBPS/content.opf").async("text").then(function (fileData) {
+        // Strip out copyright section from manifest
+        return fileData.replace(/[\t\s]+<.+"text\/copy.xhtml".+\n/g, "")
+        // Strip out dotepub logo from manifest
+        .replace(/[\t\s]+<.+"img\/dotepub\.png".+/g, "");
+      });
+      zip.file("OEBPS/content.opf", opf, {binary: false});
       // Strip out copyright file entirely
       zip.remove("OEBPS/text/copy.xhtml");
       
