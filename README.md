@@ -17,6 +17,9 @@ Clone the repo `git clone https://github.com/akaleeroy/dotepubcleaner.git`
 Install with `npm install`  
 Run `npm start "some-article.epub"` or just `npm start` to watch the current folder for incoming ebooks.
 
+In Windows you can also add a **Clean** context menu verb to all .epub files.  
+Run [install-context-menu-verb.cmd](install-context-menu-verb.cmd).
+
 ## Dependencies
 
 - [jszip](https://www.npmjs.com/package/jszip)
