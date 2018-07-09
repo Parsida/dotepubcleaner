@@ -20,7 +20,3 @@ Run `npm start "some-article.epub"` or just `npm start` to watch the current fol
 ## Dependencies
 
 - [jszip](https://www.npmjs.com/package/jszip)
-
-## TODOs
-
-- [ ] Sometimes get `Error: EBUSY: resource busy or locked`
